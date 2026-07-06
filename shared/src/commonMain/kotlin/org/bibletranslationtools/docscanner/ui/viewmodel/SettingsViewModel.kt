@@ -20,16 +20,19 @@ import org.bibletranslationtools.docscanner.api.Model
 import org.bibletranslationtools.docscanner.api.UpdateLanguages
 import org.bibletranslationtools.docscanner.data.Settings.KEY_PREF_DEFAULT_MODEL
 import org.bibletranslationtools.docscanner.data.Settings.KEY_PREF_PROCESS_IMMEDIATELY
+import org.bibletranslationtools.docscanner.data.Settings.KEY_PREF_THEME
 import org.bibletranslationtools.docscanner.data.models.Alert
 import org.bibletranslationtools.docscanner.data.models.Progress
 import org.bibletranslationtools.docscanner.data.repository.PreferenceRepository
 import org.bibletranslationtools.docscanner.data.repository.getPref
 import org.bibletranslationtools.docscanner.data.repository.setPref
+import org.bibletranslationtools.docscanner.ui.theme.ThemeMode
 import org.jetbrains.compose.resources.getString
 
 data class SettingsState(
     val model: Model = Model.OPENAI,
     val processImmediately: Boolean = true,
+    val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val progress: Progress? = null,
     val alert: Alert? = null
 )
@@ -37,6 +40,7 @@ data class SettingsState(
 sealed class SettingsEvent {
     data class SelectModel(val model: Model) : SettingsEvent()
     data class SetProcessImmediately(val value: Boolean) : SettingsEvent()
+    data class SelectTheme(val mode: ThemeMode) : SettingsEvent()
     data object DownloadLanguages : SettingsEvent()
     data class ImportLanguages(val file: PlatformFile) : SettingsEvent()
 }
@@ -69,7 +73,11 @@ class SettingsViewModel(
         )
 
         _state.update {
-            it.copy(model = model, processImmediately = processImmediately)
+            it.copy(
+                model = model,
+                processImmediately = processImmediately,
+                themeMode = ThemeMode.of(preferenceRepository.getPref<String>(KEY_PREF_THEME))
+            )
         }
     }
 
@@ -77,6 +85,7 @@ class SettingsViewModel(
         when (event) {
             is SettingsEvent.SelectModel -> selectModel(event.model)
             is SettingsEvent.SetProcessImmediately -> setProcessImmediately(event.value)
+            is SettingsEvent.SelectTheme -> selectTheme(event.mode)
             is SettingsEvent.DownloadLanguages -> runUpdateLanguages { updateLanguages.fromUrl() }
             is SettingsEvent.ImportLanguages -> runUpdateLanguages { updateLanguages.fromFile(event.file) }
         }
@@ -112,6 +121,13 @@ class SettingsViewModel(
         screenModelScope.launch(Dispatchers.Default) {
             preferenceRepository.setPref(KEY_PREF_DEFAULT_MODEL, model.value)
             _state.update { it.copy(model = model) }
+        }
+    }
+
+    private fun selectTheme(mode: ThemeMode) {
+        screenModelScope.launch(Dispatchers.Default) {
+            preferenceRepository.setPref(KEY_PREF_THEME, mode.value)
+            _state.update { it.copy(themeMode = mode) }
         }
     }
 

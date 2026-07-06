@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.SmartToy
 import androidx.compose.material.icons.filled.UploadFile
 import androidx.compose.material3.HorizontalDivider
@@ -26,6 +27,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import docscanner.composeapp.generated.resources.Res
 import docscanner.composeapp.generated.resources.ai_settings
+import docscanner.composeapp.generated.resources.appearance_section
 import docscanner.composeapp.generated.resources.default_model
 import docscanner.composeapp.generated.resources.default_model_subtitle
 import docscanner.composeapp.generated.resources.download_languages
@@ -36,6 +38,11 @@ import docscanner.composeapp.generated.resources.languages_section
 import docscanner.composeapp.generated.resources.process_immediately
 import docscanner.composeapp.generated.resources.process_immediately_subtitle
 import docscanner.composeapp.generated.resources.settings
+import docscanner.composeapp.generated.resources.theme
+import docscanner.composeapp.generated.resources.theme_dark
+import docscanner.composeapp.generated.resources.theme_light
+import docscanner.composeapp.generated.resources.theme_subtitle
+import docscanner.composeapp.generated.resources.theme_system
 import io.github.vinceglb.filekit.FileKit
 import io.github.vinceglb.filekit.dialogs.FileKitType
 import io.github.vinceglb.filekit.dialogs.openFilePicker
@@ -50,6 +57,7 @@ import org.bibletranslationtools.docscanner.ui.common.SettingsClickableItem
 import org.bibletranslationtools.docscanner.ui.common.SettingsSection
 import org.bibletranslationtools.docscanner.ui.common.SettingsToggleItem
 import org.bibletranslationtools.docscanner.ui.common.TopNavigationBar
+import org.bibletranslationtools.docscanner.ui.theme.ThemeMode
 import org.bibletranslationtools.docscanner.ui.viewmodel.SettingsEvent
 import org.bibletranslationtools.docscanner.ui.viewmodel.SettingsViewModel
 import org.jetbrains.compose.resources.stringResource
@@ -61,6 +69,7 @@ data class SettingsScreen(private val user: HtrUser?) : Screen {
         val state by viewModel.state.collectAsStateWithLifecycle()
 
         var showModelPicker by remember { mutableStateOf(false) }
+        var showThemePicker by remember { mutableStateOf(false) }
 
         val uiScope = rememberCoroutineScope()
 
@@ -81,9 +90,36 @@ data class SettingsScreen(private val user: HtrUser?) : Screen {
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 SettingsSection(
-                    title = stringResource(Res.string.ai_settings),
+                    title = stringResource(Res.string.appearance_section),
                     modifier = Modifier.padding(top = 8.dp)
                 ) {
+                    val themeLabels = mapOf(
+                        ThemeMode.SYSTEM to stringResource(Res.string.theme_system),
+                        ThemeMode.LIGHT to stringResource(Res.string.theme_light),
+                        ThemeMode.DARK to stringResource(Res.string.theme_dark)
+                    )
+                    Box {
+                        SettingsClickableItem(
+                            icon = Icons.Default.Palette,
+                            title = stringResource(Res.string.theme),
+                            subtitle = stringResource(Res.string.theme_subtitle),
+                            actionText = themeLabels.getValue(state.themeMode),
+                            onClick = { showThemePicker = true }
+                        )
+                        OptionsDropdown(
+                            expanded = showThemePicker,
+                            options = ThemeMode.entries,
+                            selected = state.themeMode,
+                            onSelect = { viewModel.onEvent(SettingsEvent.SelectTheme(it)) },
+                            onDismissRequest = { showThemePicker = false },
+                            optionLabel = { themeLabels.getValue(it) }
+                        )
+                    }
+                }
+
+                HorizontalDivider()
+
+                SettingsSection(title = stringResource(Res.string.ai_settings)) {
                     Box {
                         SettingsClickableItem(
                             icon = Icons.Default.SmartToy,

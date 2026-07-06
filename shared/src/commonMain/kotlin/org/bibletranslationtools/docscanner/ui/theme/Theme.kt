@@ -38,12 +38,18 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun DocScannerTheme(
+    themeMode: ThemeMode = ThemeMode.SYSTEM,
     colorScheme: ColorScheme? = null,
     content: @Composable () -> Unit
 ) {
+    val darkTheme = when (themeMode) {
+        ThemeMode.SYSTEM -> isSystemInDarkTheme()
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK -> true
+    }
     val colorScheme = when {
         colorScheme != null -> colorScheme
-        isSystemInDarkTheme() -> DarkColorScheme
+        darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
 
