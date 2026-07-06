@@ -50,6 +50,7 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(libs.multiplatform.settings)
+            implementation(libs.multiplatform.settings.coroutines)
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)

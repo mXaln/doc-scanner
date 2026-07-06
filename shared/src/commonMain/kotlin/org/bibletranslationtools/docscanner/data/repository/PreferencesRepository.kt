@@ -1,6 +1,10 @@
 package org.bibletranslationtools.docscanner.data.repository
 
+import com.russhwolf.settings.ExperimentalSettingsApi
+import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.Settings
+import com.russhwolf.settings.coroutines.getStringFlow
+import kotlinx.coroutines.flow.Flow
 import kotlin.reflect.KClass
 
 interface PreferenceRepository {
@@ -21,6 +25,11 @@ interface PreferenceRepository {
      * @param value if null the value will be removed
      */
     fun <T : Any> setPref(key: String, value: T?, type: KClass<T>)
+
+    /**
+     * Observes a string preference, emitting the current value and any updates
+     */
+    fun getStringFlow(key: String, defaultValue: String): Flow<String>
 }
 
 inline fun <reified T : Any> PreferenceRepository.getPref(key: String) =
@@ -70,5 +79,10 @@ class SettingsPreferenceRepository(
             is Float -> settings.putFloat(key, value)
             is Boolean -> settings.putBoolean(key, value)
         }
+    }
+
+    @OptIn(ExperimentalSettingsApi::class)
+    override fun getStringFlow(key: String, defaultValue: String): Flow<String> {
+        return (settings as ObservableSettings).getStringFlow(key, defaultValue)
     }
 }

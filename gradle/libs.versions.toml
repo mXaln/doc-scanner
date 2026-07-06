@@ -1,6 +1,6 @@
 [versions]
-app-versionName = "0.5.3"
-app-versionCode = "13"
+app-versionName = "0.5.4"
+app-versionCode = "14"
 agp = "9.2.1"
 android-compileSdk = "37"
 android-minSdk = "24"
@@ -69,6 +69,7 @@ sqldeight-android = { group = "app.cash.sqldelight", name = "android-driver", ve
 sqldelight-native-driver = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqlDelight" }
 sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqlDelight" }
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
+multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatformSettings" }
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyagerNavigator" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyagerNavigator" }
 voyager-screenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyagerNavigator" }
