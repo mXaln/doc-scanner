@@ -21,7 +21,7 @@ expect fun isLocalTranscriptionAvailable(): Boolean
 
 /**
  * Creates a transcriber for [set], loading its files from [modelsDir] and the shared
- * line detector from [detectorDir] (both from [RecognizerModels.dir]).
+ * line detector from [detectorDir] (both from [ModelsApi.dir]).
  * Sessions are created lazily on first use; always [LocalTranscriber.close] it when done.
  */
 expect fun createLocalTranscriber(

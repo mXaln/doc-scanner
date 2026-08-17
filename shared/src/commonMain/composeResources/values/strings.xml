@@ -77,7 +77,7 @@
     <string name="login_needed">Please login first</string>
     <string name="transcribe_locally">Transcribe on device</string>
     <string name="downloading_models">Preparing on-device models...</string>
-    <string name="downloading_model">Downloading %1$s (%2$d%%)</string>
+    <string name="downloading_model">Downloading %1$s (%2$d%)</string>
     <string name="download_models_failed">Could not download the on-device models. Try again?</string>
     <string name="transcribing_page">Transcribing page %1$d of %2$d, line %3$d of %4$d</string>
     <string name="transcribe_failed">On-device transcription failed. Check logs for details</string>

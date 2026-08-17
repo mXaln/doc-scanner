@@ -1,7 +1,7 @@
 package org.bibletranslationtools.docscanner.ocr
 
 /**
- * A set of model files that [RecognizerModels] can provision: one remote directory, fetched
+ * A set of model files that [ModelsApi] can provision: one remote directory, fetched
  * into one local directory. Implemented by [RecognizerSet] (per script) and [DetectorSet]
  * (one for all of them).
  */

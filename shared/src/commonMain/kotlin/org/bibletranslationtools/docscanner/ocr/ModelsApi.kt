@@ -27,7 +27,7 @@ import kotlin.time.Duration.Companion.milliseconds
  * Downloads are resumable, so an interrupted one continues instead of starting over: partial
  * data waits in a `.part` file and the next attempt asks for the rest with a Range request.
  */
-class RecognizerModels(private val directoryProvider: DirectoryProvider) {
+class ModelsApi(private val directoryProvider: DirectoryProvider) {
 
     private val logger = KotlinLogging.logger {}
 
@@ -170,7 +170,7 @@ class RecognizerModels(private val directoryProvider: DirectoryProvider) {
          * changed set is downloaded again and the others stay on disk.
          */
         const val BASE_URL =
-            "https://huggingface.co/mxaln/docscanner-ocr/resolve/models-v1/"
+            "https://huggingface.co/wycliffeassociates/docscanner-ocr/resolve/models-v1/"
 
         private const val DIR_PREFIX = "ocr-"
 

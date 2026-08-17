@@ -62,7 +62,7 @@ import org.bibletranslationtools.docscanner.data.repository.PreferenceRepository
 import org.bibletranslationtools.docscanner.data.repository.getPref
 import org.bibletranslationtools.docscanner.ocr.DetectorSet
 import org.bibletranslationtools.docscanner.ocr.LocalTranscriber
-import org.bibletranslationtools.docscanner.ocr.RecognizerModels
+import org.bibletranslationtools.docscanner.ocr.ModelsApi
 import org.bibletranslationtools.docscanner.ocr.RecognizerSet
 import org.bibletranslationtools.docscanner.ocr.createLocalTranscriber
 import org.bibletranslationtools.docscanner.ocr.script
@@ -110,7 +110,7 @@ class ProjectViewModel(
     private val pdfRepository: PdfRepository,
     private val transcriberApi: TranscriberApi,
     private val preferenceRepository: PreferenceRepository,
-    private val recognizerModels: RecognizerModels
+    private val modelsApi: ModelsApi
 ) : ScreenModel {
 
     private var _state = MutableStateFlow(ProjectState())
@@ -425,11 +425,11 @@ class ProjectViewModel(
             }
 
             try {
-                val needed = listOf(DetectorSet, modelSet).filterNot(recognizerModels::isReady)
+                val needed = listOf(DetectorSet, modelSet).filterNot(modelsApi::isReady)
                 if (needed.isNotEmpty()) {
                     updateProgress(Progress(0f, getString(Res.string.downloading_models)))
                     needed.forEach { set ->
-                        recognizerModels.download(set) { name, fraction ->
+                        modelsApi.download(set) { name, fraction ->
                             updateProgress(
                                 Progress(
                                     fraction,
@@ -450,8 +450,8 @@ class ProjectViewModel(
                 images.addAll(renderPdfToImages(Path(projectDir, pdf.name), directoryProvider))
 
                 transcriber = createLocalTranscriber(
-                    recognizerModels.dir(modelSet),
-                    recognizerModels.dir(DetectorSet),
+                    modelsApi.dir(modelSet),
+                    modelsApi.dir(DetectorSet),
                     modelSet
                 )
                 val pages = images.mapIndexed { index, image ->
@@ -509,7 +509,7 @@ class ProjectViewModel(
                 logger.error(e) { "Local transcription failed" }
                 updateProgress(null)
 
-                if (!recognizerModels.isReady(modelSet)) {
+                if (!modelsApi.isReady(modelSet)) {
                     // The models never made it down; offer another attempt.
                     updateConfirmAction(
                         ConfirmAction(
