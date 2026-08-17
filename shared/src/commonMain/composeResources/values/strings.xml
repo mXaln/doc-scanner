@@ -75,6 +75,17 @@
     <string name="upload_images_success">Successfully uploaded to Transcriber</string>
     <string name="upload_images_failed">Upload to Transcriber failed. Check logs for details</string>
     <string name="login_needed">Please login first</string>
+    <string name="transcribe_locally">Transcribe on device</string>
+    <string name="downloading_models">Preparing on-device models...</string>
+    <string name="downloading_model">Downloading %1$s (%2$d%%)</string>
+    <string name="download_models_failed">Could not download the on-device models. Try again?</string>
+    <string name="transcribing_page">Transcribing page %1$d of %2$d, line %3$d of %4$d</string>
+    <string name="transcribe_failed">On-device transcription failed. Check logs for details</string>
+    <string name="transcribe_script_unsupported">On-device transcription is not available for %1$s yet</string>
+    <string name="transcribe_wrong_script">Only %2$d%% of this page read as %1$s, so it was not saved. Use upload to Transcriber for this page.</string>
+    <string name="transcription_empty">No text was recognized</string>
+    <string name="transcription_saved">Saved as %1$s</string>
+    <string name="copy">Copy</string>
     <string name="dismiss">Dismiss</string>
     <string name="preparing_images">Preparing images...</string>
     <string name="name">Name</string>

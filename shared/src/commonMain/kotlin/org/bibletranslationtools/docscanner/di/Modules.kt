@@ -17,6 +17,7 @@ import org.bibletranslationtools.docscanner.data.repository.PreferenceRepository
 import org.bibletranslationtools.docscanner.data.repository.ProjectRepository
 import org.bibletranslationtools.docscanner.data.repository.ProjectRepositoryImpl
 import org.bibletranslationtools.docscanner.data.repository.SettingsPreferenceRepository
+import org.bibletranslationtools.docscanner.ocr.RecognizerModels
 import org.bibletranslationtools.docscanner.ui.viewmodel.HomeViewModel
 import org.bibletranslationtools.docscanner.ui.viewmodel.LoginViewModel
 import org.bibletranslationtools.docscanner.ui.viewmodel.ProjectViewModel
@@ -34,6 +35,7 @@ val sharedModule = module {
     single { MainDatabase(get()) }
     singleOf(::TranscriberApi)
     singleOf(::UpdateLanguages)
+    singleOf(::RecognizerModels)
 
     singleOf(::SettingsPreferenceRepository).bind<PreferenceRepository>()
 
@@ -50,7 +52,7 @@ val sharedModule = module {
     factoryOf(::SettingsViewModel)
     factoryOf(::LoginViewModel)
     factory { (project: Project) ->
-        ProjectViewModel(project, get(), get(), get(), get())
+        ProjectViewModel(project, get(), get(), get(), get(), get())
     }
     factoryOf(::HtrLogin)
 }

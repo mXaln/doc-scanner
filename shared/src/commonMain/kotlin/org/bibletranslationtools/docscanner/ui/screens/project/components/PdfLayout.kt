@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.DriveFileRenameOutline
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PictureAsPdf
+import androidx.compose.material.icons.filled.TextFields
 import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -33,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import docscanner.composeapp.generated.resources.Res
 import docscanner.composeapp.generated.resources.delete_pdf
 import docscanner.composeapp.generated.resources.rename_pdf
+import docscanner.composeapp.generated.resources.transcribe_locally
 import docscanner.composeapp.generated.resources.upload_images
 import org.bibletranslationtools.docscanner.data.models.Pdf
 import org.bibletranslationtools.docscanner.utils.format
@@ -43,10 +45,12 @@ import org.jetbrains.compose.resources.stringResource
 fun PdfLayout(
     pdf: Pdf,
     menuShown: Boolean,
+    transcribeLocallyShown: Boolean,
     onCardClick: () -> Unit,
     onMoreClick: () -> Unit,
     onRenameClick: () -> Unit,
     onUploadClick: () -> Unit,
+    onTranscribeLocallyClick: () -> Unit,
     onDeleteClick: () -> Unit,
     onDismissRequest: () -> Unit
 ) {
@@ -128,6 +132,22 @@ fun PdfLayout(
                             onUploadClick()
                         }
                     )
+
+                    if (transcribeLocallyShown) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(Res.string.transcribe_locally)) },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Default.TextFields,
+                                    contentDescription = null,
+                                )
+                            },
+                            onClick = {
+                                onDismissRequest()
+                                onTranscribeLocallyClick()
+                            }
+                        )
+                    }
 
                     DropdownMenuItem(
                         text = { Text(stringResource(Res.string.delete_pdf)) },

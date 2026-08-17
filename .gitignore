@@ -20,3 +20,6 @@ captures
 **/release/
 .claude/
 graphify-out/
+
+# OCR models: served locally for dev
+/models/

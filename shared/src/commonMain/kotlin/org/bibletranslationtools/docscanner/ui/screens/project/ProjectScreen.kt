@@ -44,6 +44,9 @@ import org.bibletranslationtools.docscanner.data.models.Pdf
 import org.bibletranslationtools.docscanner.data.models.Project
 import org.bibletranslationtools.docscanner.data.models.getTitle
 import org.bibletranslationtools.docscanner.data.repository.DirectoryProvider
+import org.bibletranslationtools.docscanner.ocr.RecognizerSet
+import org.bibletranslationtools.docscanner.ocr.isLocalTranscriptionAvailable
+import org.bibletranslationtools.docscanner.ocr.script
 import org.bibletranslationtools.docscanner.platform.isDocumentScannerAvailable
 import org.bibletranslationtools.docscanner.platform.rememberDocumentScannerLauncher
 import org.bibletranslationtools.docscanner.platform.rememberFileSharer
@@ -57,6 +60,7 @@ import org.bibletranslationtools.docscanner.ui.common.TopNavigationBar
 import org.bibletranslationtools.docscanner.ui.screens.login.LoginScreen
 import org.bibletranslationtools.docscanner.ui.screens.project.components.PdfLayout
 import org.bibletranslationtools.docscanner.ui.screens.project.components.PdfRenameDialog
+import org.bibletranslationtools.docscanner.ui.screens.project.components.TranscriptionDialog
 import org.bibletranslationtools.docscanner.ui.screens.project.components.UploadCompleteDialog
 import org.bibletranslationtools.docscanner.ui.screens.project.components.UploadImagesDialog
 import org.bibletranslationtools.docscanner.ui.viewmodel.ProjectEvent
@@ -105,6 +109,13 @@ data class ProjectScreen(
                 }
                 else -> Unit
             }
+        }
+
+        // Recognition models are per writing system, so the action only appears when this
+        // project's language has one.
+        val localTranscriptionSupported = remember(project.language.slug) {
+            isLocalTranscriptionAvailable() &&
+                RecognizerSet.forScript(project.language.script()) != null
         }
 
         val scannerLauncher = rememberDocumentScannerLauncher(directoryProvider) { pdfPath ->
@@ -181,6 +192,7 @@ data class ProjectScreen(
                             PdfLayout(
                                 pdf = pdf,
                                 menuShown = expandedItemId == pdf.id,
+                                transcribeLocallyShown = localTranscriptionSupported,
                                 onCardClick = {
                                     viewModel.onEvent(ProjectEvent.OpenPdf(pdf))
                                 },
@@ -202,6 +214,9 @@ data class ProjectScreen(
                                             )
                                         }
                                     }
+                                },
+                                onTranscribeLocallyClick = {
+                                    viewModel.onEvent(ProjectEvent.TranscribeLocally(pdf))
                                 },
                                 onDeleteClick = {
                                     viewModel.onEvent(ProjectEvent.DeletePdf(pdf))
@@ -247,6 +262,10 @@ data class ProjectScreen(
 
             state.uploadStatus?.let {
                 UploadCompleteDialog(it)
+            }
+
+            state.transcription?.let {
+                TranscriptionDialog(it)
             }
         }
     }

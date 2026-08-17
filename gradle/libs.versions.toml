@@ -1,28 +1,29 @@
 [versions]
 app-versionName = "0.5.4"
 app-versionCode = "14"
-agp = "9.2.1"
+agp = "9.3.1"
 android-compileSdk = "37"
 android-minSdk = "24"
 android-targetSdk = "37"
 androidx-activityCompose = "1.13.0"
-androidx-lifecycle = "2.10.0"
+androidx-lifecycle = "2.11.0"
 coil = "3.5.0"
 compose-multiplatform = "1.11.1"
-filekitDialogs = "0.14.2"
+filekitDialogs = "0.15.0"
 compose-material3 = "1.9.0"
 compose-materialIcons = "1.7.3"
 koin = "4.2.2"
-kotlin = "2.4.0"
+kotlin = "2.4.10"
 kotlinxDatetitme = "0.8.0"
 kotlinxIo = "0.9.1"
 kotlinLogging = "8.0.4"
 kotlinxSerializationJson = "1.11.0"
-ktor = "3.5.1"
-kzip = "1.1.1"
+ktor = "3.5.2"
+kzip = "2.0.0"
 logback = "3.0.0"
 mlKit = "16.0.0"
 okhttp = "5.4.0"
+onnxruntime = "1.29.0"
 slf4j = "2.0.18"
 sqlDelight = "2.3.2"
 voyagerNavigator = "2.2.21-1.10.3"
@@ -64,6 +65,7 @@ kzip = { module = "de.jonasbroeckmann.kzip:kzip", version.ref = "kzip" }
 logback-android = { module = "com.github.tony19:logback-android", version.ref = "logback" }
 mlKit-documentScanner = { group = "com.google.android.gms", name="play-services-mlkit-document-scanner", version.ref = "mlKit" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+onnxruntime-android = { group = "com.microsoft.onnxruntime", name = "onnxruntime-android", version.ref = "onnxruntime" }
 slf4j-jvm = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 sqldeight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqlDelight" }
 sqldelight-native-driver = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqlDelight" }

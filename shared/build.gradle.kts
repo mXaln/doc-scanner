@@ -43,6 +43,7 @@ kotlin {
             implementation(libs.kzip)
             implementation(libs.mlKit.documentScanner)
             implementation(libs.okhttp)
+            implementation(libs.onnxruntime.android)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
